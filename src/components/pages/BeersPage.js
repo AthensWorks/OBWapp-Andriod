@@ -6,27 +6,38 @@ import React, {
   View,
   Text,
 } from 'react-native'
-import axios from 'axios'
+import { connect } from 'react-redux'
 
 import List from 'react-native-material-design/lib/List'
 import Divider from 'react-native-material-design/lib/Divider'
 
+import { fetchBeers } from '../../actions/beers'
 import Page from '../Page'
 
-export default class Beers extends Component {
+const mapStateToProps = ({beers}) => ({
+  beers: _.values(beers.data),
+})
+
+const mapDispatchToProps = {
+  fetchBeers,
+}
+
+class BeersPage extends Component {
   constructor(props, context) {
     super(props, context)
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      dataSource: ds.cloneWithRows(props.beers),
     }
   }
 
   componentDidMount() {
-    axios.get('http://obwapp.athensworks.com/beers')
-    .then((resp) => {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(resp.data.beers),
-      })
+    this.props.fetchBeers()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(nextProps.beers)
     })
   }
 
@@ -37,6 +48,7 @@ export default class Beers extends Component {
         onMenuPress={this.props.onMenuPress}
       >
           <ListView
+            enableEmptySections
             dataSource={this.state.dataSource}
             renderRow={(beer) => <List primaryText={beer.name} />}
             renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
@@ -45,3 +57,8 @@ export default class Beers extends Component {
     )
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BeersPage)

@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import {
   FETCH_ESTABLISHMENTS_START,
   FETCH_ESTABLISHMENTS_END,
@@ -14,7 +15,7 @@ const establishments = (state = {
         ...state,
         data: {
           ...state.data,
-          ...action.payload,
+          ..._.keyBy(action.payload, 'id'),
         },
       }
     case FETCH_ESTABLISHMENTS_START:

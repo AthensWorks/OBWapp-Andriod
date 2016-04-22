@@ -14,7 +14,7 @@ import { fetchEstablishments } from '../../actions/establishments'
 import Page from '../Page'
 
 const mapStateToProps = ({establishments}) => ({
-  establishments: establishments.data,
+  establishments: _.values(establishments.data),
 })
 
 const mapDispatchToProps = {

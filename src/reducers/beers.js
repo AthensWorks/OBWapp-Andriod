@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import {
   FETCH_BEERS_START,
   FETCH_BEERS_END,
@@ -14,7 +15,7 @@ const beers = (state = {
         ...state,
         data: {
           ...state.data,
-          ...action.payload,
+          ..._.keyBy(action.payload, 'id'),
         },
       }
     case FETCH_BEERS_START:
