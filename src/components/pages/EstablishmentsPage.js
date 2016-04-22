@@ -50,7 +50,7 @@ class EstablishmentsPage extends Component {
         }
         dataSource={this.state.dataSource}
         renderRow={(establishment) => <EstablishmentListItem establishment={establishment} />}
-        renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
+        renderSeparator={(s, r) => <Divider inset key={`${s}-${r}`} />}
       />
     )
   }
