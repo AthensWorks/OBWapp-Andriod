@@ -31,10 +31,6 @@ class EstablishmentsPage extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.fetchEstablishments()
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(nextProps.establishments)

@@ -32,10 +32,6 @@ class BeersPage extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.fetchBeers()
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(nextProps.beers)
