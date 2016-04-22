@@ -1,0 +1,3 @@
+rootProject.name = 'OBWappAndroid'
+
+include ':app'
