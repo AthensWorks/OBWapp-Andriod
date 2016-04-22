@@ -9,8 +9,8 @@ import React, {
 } from 'react-native'
 import { connect } from 'react-redux'
 
-import List from 'react-native-material-design/lib/List'
 import Divider from 'react-native-material-design/lib/Divider'
+import BeerListItem from '../BeerListItem'
 
 import { fetchBeers } from '../../actions/beers'
 
@@ -49,8 +49,8 @@ class BeersPage extends Component {
           />
           }
           dataSource={this.state.dataSource}
-          renderRow={(beer) => <List primaryText={beer.name} />}
-          renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
+          renderRow={(beer) => <BeerListItem beer={beer} />}
+          renderSeparator={(s, r) => <Divider inset key={`${s}-${r}`} />}
         />
     )
   }
