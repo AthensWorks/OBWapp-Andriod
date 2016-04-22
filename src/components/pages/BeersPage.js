@@ -3,6 +3,7 @@ import React, {
   Component,
   ListView,
   ScrollView,
+  RefreshControl,
   View,
   Text,
 } from 'react-native'
@@ -12,10 +13,10 @@ import List from 'react-native-material-design/lib/List'
 import Divider from 'react-native-material-design/lib/Divider'
 
 import { fetchBeers } from '../../actions/beers'
-import Page from '../Page'
 
 const mapStateToProps = ({beers}) => ({
   beers: _.values(beers.data),
+  isLoading: beers.isLoading,
 })
 
 const mapDispatchToProps = {
@@ -43,17 +44,18 @@ class BeersPage extends Component {
 
   render() {
     return (
-      <Page
-        title="Beers"
-        onMenuPress={this.props.onMenuPress}
-      >
-          <ListView
-            enableEmptySections
-            dataSource={this.state.dataSource}
-            renderRow={(beer) => <List primaryText={beer.name} />}
-            renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
+      <ListView
+        enableEmptySections
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.isLoading}
+            onRefresh={this.props.fetchBeers}
           />
-      </Page>
+          }
+          dataSource={this.state.dataSource}
+          renderRow={(beer) => <List primaryText={beer.name} />}
+          renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
+        />
     )
   }
 }

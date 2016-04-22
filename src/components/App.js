@@ -3,20 +3,21 @@ import React, {
   StyleSheet,
   DrawerLayoutAndroid,
   Navigator,
+  View,
 } from 'react-native'
 
 import {
   Drawer,
+  Toolbar,
 } from 'react-native-material-design'
 
-import EstablishmentsPage from './pages/EstablishmentsPage'
-import BeersPage from './pages/BeersPage'
-import MapPage from './pages/MapPage'
-import AboutPage from './pages/AboutPage'
+import Routes from '../routes'
 
 export default class App extends Component {
   constructor(props, context) {
     super(props, context)
+
+    this.state = { route: Routes['establishments-list'] }
 
     this.renderScene = this.renderScene.bind(this)
     this.handlePressMenu = this.handlePressMenu.bind(this)
@@ -30,12 +31,8 @@ export default class App extends Component {
 
   navigateTo(id) {
     return () => {
-      this.refs.navigator.replace({
-        'establishments': { id: 'establishments' },
-        'beers': { id: 'beers' },
-        'map': { id: 'map' },
-        'about': { id: 'about' },
-      }[id])
+      this.setState({ route: Routes[id] })
+      this.refs.navigator.replace(Routes[id])
       this.refs.drawer.closeDrawer()
     }
   }
@@ -48,12 +45,12 @@ export default class App extends Component {
             {
               icon: 'location-on',
               value: 'Establishments',
-              onPress: this.navigateTo('establishments'),
+              onPress: this.navigateTo('establishments-list'),
             },
             {
               icon: 'local-bar',
               value: 'Beers',
-              onPress: this.navigateTo('beers'),
+              onPress: this.navigateTo('beers-list'),
             },
             {
               icon: 'map',
@@ -72,28 +69,24 @@ export default class App extends Component {
   }
 
   renderScene(route, navigator) {
-    switch(route.id) {
-    case 'establishments':
-      return <EstablishmentsPage navigator={navigator} onMenuPress={this.handlePressMenu} />
-    case 'beers':
-      return <BeersPage navigator={navigator} onMenuPress={this.handlePressMenu} />
-    case 'map':
-      return <MapPage navigator={navigator} onMenuPress={this.handlePressMenu} />
-    case 'about':
-      return <AboutPage navigator={navigator} onMenuPress={this.handlePressMenu} />
-    }
+    return React.createElement(route.component, { navigator })
   }
 
   render() {
+    const { route } = this.state
     return (
       <DrawerLayoutAndroid
         ref="drawer"
         renderNavigationView={this.renderNavigationView}
       >
         <Navigator
+          navigationBar={
+            <Toolbar icon="menu" title={route.title} onIconPress={this.handlePressMenu} />
+          }
+          style={{ paddingTop: 56 }}
           ref="navigator"
           renderScene={this.renderScene}
-          initialRoute={{id: 'establishments' }}
+          initialRoute={Routes['establishments-list']}
         />
       </DrawerLayoutAndroid>
     )

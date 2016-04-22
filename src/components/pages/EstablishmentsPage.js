@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React, {
   Component,
   ListView,
+  RefreshControl,
   ScrollView,
   View,
   Text,
@@ -11,10 +12,10 @@ import List from 'react-native-material-design/lib/List'
 import Divider from 'react-native-material-design/lib/Divider'
 
 import { fetchEstablishments } from '../../actions/establishments'
-import Page from '../Page'
 
 const mapStateToProps = ({establishments}) => ({
   establishments: _.values(establishments.data),
+  isLoading: establishments.isLoading,
 })
 
 const mapDispatchToProps = {
@@ -42,17 +43,18 @@ class EstablishmentsPage extends Component {
 
   render() {
     return (
-      <Page
-        title="Establishments"
-        onMenuPress={this.props.onMenuPress}
-      >
-          <ListView
-            enableEmptySections
-            dataSource={this.state.dataSource}
-            renderRow={(establishment) => <List primaryText={establishment.name} />}
-            renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
+      <ListView
+        enableEmptySections
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.isLoading}
+            onRefresh={this.props.fetchEstablishments}
           />
-      </Page>
+        }
+        dataSource={this.state.dataSource}
+        renderRow={(establishment) => <List primaryText={establishment.name} />}
+        renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
+      />
     )
   }
 }
