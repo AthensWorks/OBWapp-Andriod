@@ -8,8 +8,9 @@ import React, {
   Text,
 } from 'react-native'
 import { connect } from 'react-redux'
-import List from 'react-native-material-design/lib/List'
 import Divider from 'react-native-material-design/lib/Divider'
+
+import EstablishmentListItem from '../EstablishmentListItem'
 
 import { fetchEstablishments } from '../../actions/establishments'
 
@@ -48,7 +49,7 @@ class EstablishmentsPage extends Component {
           />
         }
         dataSource={this.state.dataSource}
-        renderRow={(establishment) => <List primaryText={establishment.name} />}
+        renderRow={(establishment) => <EstablishmentListItem establishment={establishment} />}
         renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
       />
     )

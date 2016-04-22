@@ -46,21 +46,25 @@ export default class App extends Component {
               icon: 'location-on',
               value: 'Establishments',
               onPress: this.navigateTo('establishments-list'),
+              active: this.state.route.id === 'establishments-list',
             },
             {
               icon: 'local-bar',
               value: 'Beers',
               onPress: this.navigateTo('beers-list'),
+              active: this.state.route.id === 'beers-list',
             },
             {
               icon: 'map',
               value: 'Map',
               onPress: this.navigateTo('map'),
+              active: this.state.route.id === 'map',
             },
             {
               icon: 'help',
               value: 'About',
               onPress: this.navigateTo('about'),
+              active: this.state.route.id === 'about',
             },
           ]}
         />

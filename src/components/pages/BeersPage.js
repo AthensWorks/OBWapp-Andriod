@@ -47,11 +47,11 @@ class BeersPage extends Component {
             refreshing={this.props.isLoading}
             onRefresh={this.props.fetchBeers}
           />
-          }
-          dataSource={this.state.dataSource}
-          renderRow={(beer) => <BeerListItem beer={beer} />}
-          renderSeparator={(s, r) => <Divider inset key={`${s}-${r}`} />}
-        />
+        }
+        dataSource={this.state.dataSource}
+        renderRow={(beer) => <BeerListItem beer={beer} />}
+        renderSeparator={(s, r) => <Divider inset key={`${s}-${r}`} />}
+      />
     )
   }
 }
