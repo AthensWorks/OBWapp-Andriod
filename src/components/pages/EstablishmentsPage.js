@@ -6,27 +6,37 @@ import React, {
   View,
   Text,
 } from 'react-native'
-import axios from 'axios'
-
+import { connect } from 'react-redux'
 import List from 'react-native-material-design/lib/List'
 import Divider from 'react-native-material-design/lib/Divider'
 
+import { fetchEstablishments } from '../../actions/establishments'
 import Page from '../Page'
 
-export default class Establishments extends Component {
+const mapStateToProps = ({establishments}) => ({
+  establishments: establishments.data,
+})
+
+const mapDispatchToProps = {
+  fetchEstablishments,
+}
+
+class EstablishmentsPage extends Component {
   constructor(props, context) {
     super(props, context)
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
-      dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      dataSource: ds.cloneWithRows(props.establishments)
     }
   }
 
   componentDidMount() {
-    axios.get('http://obwapp.athensworks.com/establishments')
-    .then((resp) => {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(resp.data.establishments),
-      })
+    this.props.fetchEstablishments()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(nextProps.establishments)
     })
   }
 
@@ -37,6 +47,7 @@ export default class Establishments extends Component {
         onMenuPress={this.props.onMenuPress}
       >
           <ListView
+            enableEmptySections
             dataSource={this.state.dataSource}
             renderRow={(establishment) => <List primaryText={establishment.name} />}
             renderSeparator={(s, r) => <Divider key={`${s}-${r}`} />}
@@ -45,3 +56,8 @@ export default class Establishments extends Component {
     )
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EstablishmentsPage)
