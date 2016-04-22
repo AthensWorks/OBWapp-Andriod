@@ -9,16 +9,13 @@ import React, {
 } from 'react-native'
 
 import {
-  Toolbar,
   Drawer,
 } from 'react-native-material-design'
 
-import Page from './src/components/Page'
-
-import Establishments from './src/components/pages/Establishments'
-import Beers from './src/components/pages/Beers'
-import Map from './src/components/pages/Map'
-import About from './src/components/pages/About'
+import EstablishmentsPage from './src/components/pages/EstablishmentsPage'
+import BeersPage from './src/components/pages/BeersPage'
+import MapPage from './src/components/pages/MapPage'
+import AboutPage from './src/components/pages/AboutPage'
 
 class OBWappAndroid extends Component {
   constructor(props, context) {
@@ -80,13 +77,13 @@ class OBWappAndroid extends Component {
   renderScene(route, navigator) {
     switch(route.id) {
     case 'establishments':
-      return <Establishments navigator={navigator} onMenuPress={this.handlePressMenu} />
+      return <EstablishmentsPage navigator={navigator} onMenuPress={this.handlePressMenu} />
     case 'beers':
-      return <Beers navigator={navigator} onMenuPress={this.handlePressMenu} />
+      return <BeersPage navigator={navigator} onMenuPress={this.handlePressMenu} />
     case 'map':
-      return <Map navigator={navigator} onMenuPress={this.handlePressMenu} />
+      return <MapPage navigator={navigator} onMenuPress={this.handlePressMenu} />
     case 'about':
-      return <About navigator={navigator} onMenuPress={this.handlePressMenu} />
+      return <AboutPage navigator={navigator} onMenuPress={this.handlePressMenu} />
     }
   }
 
