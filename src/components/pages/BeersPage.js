@@ -30,12 +30,25 @@ class BeersPage extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(props.beers),
     }
+    this.handlePressBeer = this.handlePressBeer.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(nextProps.beers)
     })
+  }
+
+  handlePressBeer(id) {
+    return () => {
+      console.log(`TODO: Navigate to beer ${id}`)
+    }
+  }
+
+  handlePressBeerCheck(id) {
+    return () => {
+      console.log(`TODO: Toggle checkbox for beer ${id}`)
+    }
   }
 
   render() {
@@ -49,7 +62,13 @@ class BeersPage extends Component {
           />
         }
         dataSource={this.state.dataSource}
-        renderRow={(beer) => <BeerListItem beer={beer} />}
+        renderRow={(beer) =>
+          <BeerListItem
+            onPress={this.handlePressBeer(beer.id)}
+            onPressCheck={this.handlePressBeerCheck(beer.id)}
+            beer={beer}
+          />
+        }
         renderSeparator={(s, r) => <Divider inset key={`${s}-${r}`} />}
       />
     )
